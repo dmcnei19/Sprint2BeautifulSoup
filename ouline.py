@@ -25,6 +25,7 @@ def saveDataInCSV():
 #main function
 def main():
     # Write a code here to get job location and role from user e.g. role = input()
+    print("Unnecessary change")
     print("Enter role you want to search")
     role = input()
     # Complete the missing part of this function here
