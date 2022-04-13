@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "0a3ebb5e-8bd2-4db9-a773-d709d7e728a2",
+		"name": "3155_Beautiful_Soup_P1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://www.indeed.com/jobs?q=Software Developer&l=Charlotte",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.indeed.com/jobs?q=Software Developer&l=Charlotte",
+					"protocol": "https",
+					"host": [
+						"www",
+						"indeed",
+						"com"
+					],
+					"path": [
+						"jobs"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Software Developer"
+						},
+						{
+							"key": "l",
+							"value": "Charlotte"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
