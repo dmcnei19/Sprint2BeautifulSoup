@@ -1,37 +1,40 @@
 # import beautifulsoup and request here
+import json
+
 import requests
-import bs4
-
-url = "https://www.indeed.com/jobs?q=Software Developer&l=Charlotte"
-
-payload = {}
-headers = {
-    'Cookie': 'CTK=1fvrdvh93ptuu800; INDEED_CSRF_TOKEN=T2ABBZ0uBzuSmcrgE1JgfpDyxQUzUoyJ; '
-              'JSESSIONID=CE9A0B60F4BFD0F9EB880E945E6B7977; PREF="TM=1649114334507:L=Charlotte"; '
-              'RQ="q=Software+Developer&l=Charlotte&ts=1649114334532"; '
-              'UD="LA=1649114334:CV=1649114334:TS=1649114334:SG=af77ddcf45faa77487636e0b17cca30c"; ctkgen=1; '
-              'indeed_rcc=""; jaSerpCount=1 '
-}
-
-response = requests.request("GET", url, headers=headers, data=payload)
-
-print(response.text)
+from bs4 import BeautifulSoup
 
 
-def displayJobDetails():
+def displayJobDetails(job):
     print("Display job details")
+    print("Title: " + job[0] + "\n")
+    print("Company: " + job[1] + "\n")
+    print("Description: " + job[2] + "\n")
+    print("Salary: " + job[3] + "\n")
 
 
 # function to get job list from url 'https://www.indeed.com/jobs?q={role}&l={location}'
 def getJobList(role, location):
-    url = 'https://www.indeed.com/jobs?q={role}&l={location}'
-    # Complete the missing part of this function here 
+    url = 'https://www.indeed.com/jobs?q=' + role + '&l=' + location
+    # Complete the missing part of this function here
+    request = requests.get(url)
+    job = BeautifulSoup(request.text, 'html.parser')
+    job.prettify()
+    jobTitle = job.find('h2', class_='jobTitle').text
+    companyName = job.find('span', class_='companyName').text
+    jobSnippet = job.find('div', class_='job-snippet').text
+    salary = job.find('div', class_='salary-snippet-container').text
+    endJob = [jobTitle, companyName, jobSnippet, salary]
+    return endJob
 
 
 # save data in csv file
-def saveDataInJSON():
+def saveDataInJSON(job):
     # Complete the missing part of this function here
     print("Saving data to JSON")
+    output = open("jobDetails.json", 'w')
+    json.dump(job, output)
+    output.close()
 
 
 # main function
@@ -44,7 +47,9 @@ def main():
     location = input()
     print("Job role: ", role)
     print("location: ", location)
-    getJobList(role, location)
+    job = getJobList(role, location)
+    saveDataInJSON(job)
+    displayJobDetails(job)
 
 
 if __name__ == '__main__':
